@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrainRot Free — BCA 1st Sem Study Hub</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+            mono: ['Fira Code', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --secondary: #ec4899;
+      --accent: #8b5cf6;
+      --bg-light: #f8fafc;
+      --bg-dark: #0f172a;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* Ambient Glow Blobs */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .ambient-blob-1 {
+      position: absolute;
+      top: -10%;
+      left: 10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(99, 102, 241, 0) 70%);
+      filter: blur(60px);
+      animation: floatSlow 18s ease-in-out infinite alternate;
+    }
+    .ambient-blob-2 {
+      position: absolute;
+      bottom: -10%;
+      right: 10%;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, rgba(236, 72, 153, 0) 70%);
+      filter: blur(70px);
+      animation: floatSlow 22s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes floatSlow {
+      0% { transform: translate(0px, 0px) scale(1); }
+      50% { transform: translate(30px, -40px) scale(1.05); }
+      100% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+
+    /* Modern Glassmorphic Cards */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+      border-radius: 1.25rem;
+      transition: all 0.25s ease;
+    }
+
+    .dark .glass-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(51, 65, 85, 0.8);
+      box-shadow: 0 4px 25px -2px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+      transition: all 0.2s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.45);
+      filter: brightness(1.05);
+    }
+
+    /* Flip Card Styling */
+    .flip-card {
+      perspective: 1000px;
+    }
+    .flip-card-inner {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    .dark ::webkit-scrollbar-thumb { background: #334155; }
+
+    @keyframes toastSlide {
+      0% { transform: translateY(20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .animate-toast {
+      animation: toastSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen relative pb-16">
+
+  <!-- Ambient Animated Blobs -->
+  <div class="ambient-bg">
+    <div class="ambient-blob-1"></div>
+    <div class="ambient-blob-2"></div>
+  </div>
+
+  <!-- TOP NAVIGATION BAR -->
+  <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/75 dark:bg-slate-900/75 border-b border-slate-200/80 dark:border-slate-800 transition">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Logo & Subject Badge -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 p-0.5 shadow-md flex items-center justify-center">
+          <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              BrainRot Free
+            </span>
+            <span class="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+              BCA Sem 1 Pro 💻
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Header Actions: Streak, XP & Dark Mode Toggle -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        
+        <div class="flex items-center gap-1.5 bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 px-3 py-1.5 rounded-full text-xs font-bold text-amber-700 dark:text-amber-300 shadow-sm">
+          <span>🔥</span>
+          <span id="streak-counter">3 Day Streak</span>
+        </div>
+
+        <div class="flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-800 px-3 py-1.5 rounded-full text-xs font-bold text-indigo-700 dark:text-indigo-300 shadow-sm">
+          <span>🏆</span>
+          <span id="header-xp-badge">450 XP</span>
+        </div>
+
+        <!-- Dark Mode Toggle Button -->
+        <button onclick="toggleDarkMode()" aria-label="Toggle Dark Mode" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+          <svg id="theme-icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg id="theme-icon-moon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-8 relative z-10">
+    <div class="glass-card p-6 md:p-8 relative overflow-hidden">
+      <div class="absolute -right-12 -top-12 w-72 h-72 bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+        
+        <!-- Hero Left -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-950/80 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-bold">
+            <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
+            Comprehensive BCA 1st Semester Syllabus Engine
+          </div>
+          
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.15]">
+            Master C, Digital Logic & Math. <br/>
+            <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">Zero BrainRot. Maximum Marks.</span>
+          </h1>
+          
+          <p class="text-sm md:text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed max-w-xl">
+            Interactive visual memory allocators, live logic gate simulators, flashcards, code cheat sheets, and high-yield sessional exam practice.
+          </p>
+
+          <!-- Quick Launch Buttons -->
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <button onclick="loadPresetSubject('c_pointers')" class="btn-primary text-white text-xs md:text-sm font-extrabold px-5 py-3 rounded-xl inline-flex items-center gap-2 shadow-md">
+              <span>💻 C Pointers & Memory</span>
+            </button>
+            <button onclick="loadPresetSubject('digital_logic')" class="bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs md:text-sm font-extrabold px-5 py-3 rounded-xl inline-flex items-center gap-2 transition shadow-sm">
+              <span>⚡ Digital Electronics</span>
+            </button>
+            <button onclick="switchTab('visualizers')" class="bg-purple-50 dark:bg-purple-950/50 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 text-xs md:text-sm font-extrabold px-4 py-3 rounded-xl inline-flex items-center gap-1.5 transition">
+              <span>🔬 Interactive Visualizers</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hero Right Quick Stats Board -->
+        <div class="lg:col-span-5">
+          <div class="bg-slate-900 text-slate-100 rounded-2xl p-5 shadow-2xl border border-slate-800 space-y-4 relative">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                <span class="text-xs font-mono text-slate-400 ml-1">BCA_Sem1_Dashboard.c</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Auto Save Enabled</span>
+            </div>
+
+            <!-- Subject Grid Preview -->
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="p-3 rounded-xl bg-slate-800/90 border border-slate-700/80 hover:border-indigo-500/50 transition cursor-pointer" onclick="loadPresetSubject('c_pointers')">
+                <span class="text-[10px] text-indigo-400 block font-bold">PROGRAMMING IN C</span>
+                <span class="font-extrabold text-white text-xs">Pointers, Structs, File I/O</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-800/90 border border-slate-700/80 hover:border-emerald-500/50 transition cursor-pointer" onclick="loadPresetSubject('digital_logic')">
+                <span class="text-[10px] text-emerald-400 block font-bold">DIGITAL ELECTRONICS</span>
+                <span class="font-extrabold text-white text-xs">Logic Gates & K-Maps</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-800/90 border border-slate-700/80 hover:border-amber-500/50 transition cursor-pointer" onclick="loadPresetSubject('discrete_math')">
+                <span class="text-[10px] text-amber-400 block font-bold">DISCRETE MATH</span>
+                <span class="font-extrabold text-white text-xs">Set Theory & Truth Tables</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-800/90 border border-slate-700/80 hover:border-pink-500/50 transition cursor-pointer" onclick="loadPresetSubject('computer_fundamentals')">
+                <span class="text-[10px] text-pink-400 block font-bold">COMPUTER FUNDAMENTALS</span>
+                <span class="font-extrabold text-white text-xs">CPU, Memory & Number Bases</span>
+              </div>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="pt-2 flex items-center justify-between text-[11px] text-slate-400 font-medium border-t border-slate-800">
+              <span class="flex items-center gap-1.5 text-emerald-400 font-bold">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Live Study Session
+              </span>
+              <span id="completed-topics-count" class="text-indigo-300 font-bold">0 / 4 Topics Done</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVIGATION TABS BAR -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 relative z-10">
+    <div class="bg-slate-200/80 dark:bg-slate-900/80 p-1.5 rounded-2xl border border-slate-300/80 dark:border-slate-800 flex flex-wrap gap-1 shadow-inner">
+      <button id="tab-btn-roadmap" onclick="switchTab('roadmap')" class="flex-1 py-3 px-4 rounded-xl font-extrabold text-xs md:text-sm transition-all duration-200 bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-md">
+        ⚡ BCA Roadmaps
+      </button>
+      <button id="tab-btn-visualizers" onclick="switchTab('visualizers')" class="flex-1 py-3 px-4 rounded-xl font-extrabold text-xs md:text-sm transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+        🔬 Memory & Logic Workbench
+      </button>
+      <button id="tab-btn-flashcards" onclick="switchTab('flashcards')" class="flex-1 py-3 px-4 rounded-xl font-extrabold text-xs md:text-sm transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+        🎴 Smart Flashcards
+      </button>
+      <button id="tab-btn-search" onclick="switchTab('search')" class="flex-1 py-3 px-4 rounded-xl font-extrabold text-xs md:text-sm transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+        🔍 BrainGain Engine
+      </button>
+    </div>
+  </section>
+
+  <!-- MAIN DASHBOARD CONTENT AREA -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+    <!-- ==================== TAB 1: ROADMAP & STUDY WORKSPACE ==================== -->
+    <div id="view-roadmap" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Left Controls (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <!-- Generator Form -->
+        <div class="glass-card p-6">
+          <div class="flex items-center justify-between mb-5">
+            <h2 class="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-sm">📅</span> BCA Study Planner
+            </h2>
+            <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950 px-2.5 py-1 rounded-full border border-indigo-200 dark:border-indigo-800">Sem 1 Edition</span>
+          </div>
+
+          <form onsubmit="handleGenerateRoadmap(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">BCA Topic / Subject</label>
+              <input type="text" id="subject-input" placeholder="e.g. C Programming — Pointers & Dynamic Memory" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-950 text-slate-900 dark:text-slate-100 placeholder-slate-400 font-medium transition">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Days Left</label>
+                <input type="number" id="days-input" placeholder="e.g. 3" min="1" max="30" value="3" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-slate-100 font-medium">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Target Exam</label>
+                <select id="exam-target-select" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-900 dark:text-slate-100 font-medium">
+                  <option value="Sessional / Mid-Term">Sessional / Mid-Term</option>
+                  <option value="University End Sem Exam">University End Sem</option>
+                  <option value="Lab Practical Viva">Lab Practical / Viva</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Rapid Sprint Toggle -->
+            <div class="flex items-center justify-between p-4 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-xl">
+              <div>
+                <span class="text-xs font-extrabold text-red-800 dark:text-red-300 block">⏰ Surprise Test / Viva Today?</span>
+                <span class="text-[11px] font-medium text-red-600 dark:text-red-400">3-Hour High-Yield Crash Sprint</span>
+              </div>
+              <input type="checkbox" id="surprise-check" onchange="toggleSurpriseState()" class="w-5 h-5 accent-red-600 rounded cursor-pointer">
+            </div>
+
+            <button type="submit" id="btn-generate-roadmap" class="btn-primary w-full py-3.5 text-white font-extrabold rounded-xl text-sm flex items-center justify-center gap-2">
+              <span>⚡</span> Generate Custom Study System
+            </button>
+          </form>
+        </div>
+
+        <!-- Presets Card -->
+        <div class="glass-card p-5 space-y-3">
+          <h3 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center justify-between">
+            <span>📚 BCA 1st Sem Quick Subjects</span>
+            <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded">Pre-loaded</span>
+          </h3>
+
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="loadPresetSubject('c_pointers')" class="p-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/60 dark:hover:bg-indigo-900/80 border border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200 text-xs font-bold transition text-left flex flex-col gap-1">
+              <span>💻 C Programming</span>
+              <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-medium">Pointers & Memory</span>
+            </button>
+
+            <button onclick="loadPresetSubject('digital_logic')" class="p-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/80 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 text-xs font-bold transition text-left flex flex-col gap-1">
+              <span>⚡ Digital Electronics</span>
+              <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Gates & K-Maps</span>
+            </button>
+
+            <button onclick="loadPresetSubject('discrete_math')" class="p-3 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/60 dark:hover:bg-amber-900/80 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-xs font-bold transition text-left flex flex-col gap-1">
+              <span>📐 Discrete Math</span>
+              <span class="text-[10px] text-amber-600 dark:text-amber-400 font-medium">Set Theory & Logic</span>
+            </button>
+
+            <button onclick="loadPresetSubject('computer_fundamentals')" class="p-3 rounded-xl bg-pink-50 hover:bg-pink-100 dark:bg-pink-950/60 dark:hover:bg-pink-900/80 border border-pink-200 dark:border-pink-800 text-pink-900 dark:text-pink-200 text-xs font-bold transition text-left flex flex-col gap-1">
+              <span>🖥️ Fundamentals</span>
+              <span class="text-[10px] text-pink-600 dark:text-pink-400 font-medium">CPU & Number Bases</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Overall Progress Card -->
+        <div class="glass-card p-5 space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Subject Progress Mastery</span>
+            <span id="progress-text" class="text-base font-black text-indigo-600 dark:text-indigo-400">0%</span>
+          </div>
+          <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-3.5 overflow-hidden p-0.5">
+            <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-full w-0 rounded-full transition-all duration-500 ease-out"></div>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Completing notes, code quizzes, and viva keys boosts your subject mastery!</p>
+        </div>
+
+      </div>
+
+      <!-- Right Output Workspace (7 cols) -->
+      <div class="lg:col-span-7">
+        <div id="roadmap-display" class="glass-card p-6 min-h-[550px] relative flex flex-col justify-between">
+          
+          <!-- Empty State -->
+          <div id="roadmap-empty" class="my-auto flex flex-col items-center justify-center text-center p-8 text-slate-400">
+            <div class="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-100 dark:border-indigo-800 flex items-center justify-center mb-4 shadow-sm">
+              <span class="text-3xl">💻</span>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-800 dark:text-slate-200 mb-1">No Subject Roadmap Selected</h3>
+            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 max-w-sm font-medium mb-5">
+              Select a BCA 1st Sem subject from the left panel or click below to launch C Programming notes & quizzes!
+            </p>
+            <button onclick="loadPresetSubject('c_pointers')" class="btn-primary text-white text-xs font-extrabold px-5 py-3 rounded-xl shadow-md">
+              🚀 Launch C Programming Master Roadmap
+            </button>
+          </div>
+
+          <!-- Roadmap Milestones List View -->
+          <div id="roadmap-content" class="hidden"></div>
+
+          <!-- Dedicated Topic Workspace View -->
+          <div id="topic-workspace" class="hidden space-y-5"></div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== TAB 2: INTERACTIVE VISUALIZERS ==================== -->
+    <div id="view-visualizers" class="hidden space-y-8">
+      
+      <!-- Visualizer 1: C Memory & Pointer Interactive Visualizer -->
+      <div class="glass-card p-6 space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-4">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">C Programming Workbench</span>
+            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mt-1">Interactive Pointer & Memory Allocation Visualizer</h3>
+          </div>
+          <span class="text-xs font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800">Stack vs Heap Memory</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Controls Column -->
+          <div class="space-y-4">
+            <div class="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs space-y-2">
+              <div class="text-slate-400 text-[10px]">// Live Execution Simulation</div>
+              <div><span class="text-pink-400">int</span> x = <span id="code-val-x" class="text-amber-300">42</span>;</div>
+              <div><span class="text-pink-400">int</span> *ptr = &amp;x; <span class="text-slate-500">// ptr holds address of x</span></div>
+              <div><span class="text-pink-400">int</span> *heap_arr = (<span class="text-pink-400">int</span>*) malloc(<span id="code-val-malloc" class="text-emerald-300">3</span> * <span class="text-purple-300">sizeof</span>(<span class="text-pink-400">int</span>));</div>
+            </div>
+
+            <div class="space-y-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Modify Value of Variable 'x':</label>
+                <input type="number" id="sim-x-val" value="42" oninput="updateMemorySimulation()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-bold">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Malloc Dynamic Integers Count:</label>
+                <input type="range" id="sim-malloc-count" min="1" max="5" value="3" oninput="updateMemorySimulation()" class="w-full accent-indigo-600">
+              </div>
+
+              <div class="flex gap-2">
+                <button onclick="triggerFreeMemory()" id="btn-free-mem" class="flex-1 py-2.5 bg-red-100 dark:bg-red-950/60 hover:bg-red-200 dark:hover:bg-red-900 border border-red-300 dark:border-red-800 text-red-800 dark:text-red-300 text-xs font-extrabold rounded-xl transition">
+                  🗑️ Execute free(heap_arr)
+                </button>
+                <button onclick="resetMemorySimulation()" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl transition">
+                  🔄 Reset Memory
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Memory Diagram Representation -->
+          <div class="space-y-4">
+            
+            <!-- STACK MEMORY BLOCK -->
+            <div class="p-4 rounded-xl border border-indigo-200 dark:border-indigo-900 bg-indigo-50/50 dark:bg-indigo-950/30 space-y-2">
+              <div class="flex justify-between items-center text-xs font-extrabold text-indigo-900 dark:text-indigo-300">
+                <span>📚 STACK MEMORY (Compile-time)</span>
+                <span class="font-mono text-[10px]">Addresses 0x7FFF00</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                <div class="p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-indigo-300 dark:border-indigo-800 shadow-sm">
+                  <div class="text-[10px] text-slate-400">var: x @ 0x7FFF04</div>
+                  <div class="font-bold text-slate-800 dark:text-slate-200">Value: <span id="mem-stack-x" class="text-indigo-600 dark:text-indigo-400">42</span></div>
+                </div>
+
+                <div class="p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-indigo-300 dark:border-indigo-800 shadow-sm">
+                  <div class="text-[10px] text-slate-400">pointer: ptr @ 0x7FFF08</div>
+                  <div class="font-bold text-emerald-600 dark:text-emerald-400">Points to ➔ 0x7FFF04</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- HEAP MEMORY BLOCK -->
+            <div id="heap-container-block" class="p-4 rounded-xl border border-emerald-200 dark:border-emerald-900 bg-emerald-50/50 dark:bg-emerald-950/30 space-y-2">
+              <div class="flex justify-between items-center text-xs font-extrabold text-emerald-900 dark:text-emerald-300">
+                <span>🧠 HEAP MEMORY (malloc Dynamic Allocation)</span>
+                <span class="font-mono text-[10px]">Addresses 0x1004A0</span>
+              </div>
+
+              <div id="heap-memory-cells" class="flex flex-wrap gap-2 text-xs font-mono"></div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Visualizer 2: Digital Electronics Logic Gate Simulator -->
+      <div class="glass-card p-6 space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-4">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">Digital Logic Lab</span>
+            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mt-1">Live Logic Gate Workbench & Truth Table Generator</h3>
+          </div>
+          <span class="text-xs font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800">Sem 1 Practical</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          
+          <!-- Controls -->
+          <div class="lg:col-span-5 space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Select Logic Gate</label>
+              <select id="gate-selector" onchange="updateGateSimulation()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 dark:text-slate-100">
+                <option value="AND">AND Gate (A · B)</option>
+                <option value="OR">OR Gate (A + B)</option>
+                <option value="NAND">NAND Gate ( (A · B)' ) [Universal]</option>
+                <option value="NOR">NOR Gate ( (A + B)' ) [Universal]</option>
+                <option value="XOR">XOR Gate (A ⊕ B)</option>
+                <option value="XNOR">XNOR Gate (A ⊙ B)</option>
+              </select>
+            </div>
+
+            <!-- Input Toggles -->
+            <div class="grid grid-cols-2 gap-3">
+              <button id="btn-gate-input-a" onclick="toggleGateInput('A')" class="p-4 rounded-xl border-2 border-slate-300 dark:border-slate-700 font-extrabold text-sm flex flex-col items-center gap-1 transition">
+                <span class="text-xs text-slate-500">Input A</span>
+                <span id="label-gate-a" class="text-xl text-slate-800 dark:text-white">0 (LOW)</span>
+              </button>
+
+              <button id="btn-gate-input-b" onclick="toggleGateInput('B')" class="p-4 rounded-xl border-2 border-slate-300 dark:border-slate-700 font-extrabold text-sm flex flex-col items-center gap-1 transition">
+                <span class="text-xs text-slate-500">Input B</span>
+                <span id="label-gate-b" class="text-xl text-slate-800 dark:text-white">0 (LOW)</span>
+              </button>
+            </div>
+
+            <!-- Calculated Result -->
+            <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex justify-between items-center shadow-md">
+              <div>
+                <span class="text-[10px] text-indigo-300 font-mono block">OUTPUT (Y)</span>
+                <span id="gate-formula-display" class="text-xs font-bold text-slate-300">Y = A · B</span>
+              </div>
+              <span id="gate-output-badge" class="text-2xl font-black px-4 py-1.5 rounded-xl bg-red-500/20 text-red-300 border border-red-500/40">0 (LOW)</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Truth Table Generator -->
+          <div class="lg:col-span-7">
+            <div class="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm bg-white dark:bg-slate-900">
+              <div class="bg-slate-100 dark:bg-slate-800/80 px-4 py-2.5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <span class="text-xs font-extrabold text-slate-700 dark:text-slate-300">Generated Truth Table</span>
+                <span id="gate-name-header" class="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400">AND GATE</span>
+              </div>
+              <div class="p-4 overflow-x-auto">
+                <table class="w-full text-xs text-center font-mono">
+                  <thead>
+                    <tr class="text-slate-400 border-b border-slate-200 dark:border-slate-800">
+                      <th class="py-2 px-3">Input A</th>
+                      <th class="py-2 px-3">Input B</th>
+                      <th class="py-2 px-3 font-bold text-indigo-600 dark:text-indigo-400">Output Y</th>
+                      <th class="py-2 px-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="truth-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Visualizer 3: Number Base Converter (Binary, Octal, Decimal, Hex) -->
+      <div class="glass-card p-6 space-y-5">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-4">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300">Computer Architecture</span>
+            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mt-1">Instant Number Base Conversion Tool</h3>
+          </div>
+          <span class="text-xs font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800">Base 2, 8, 10 & 16</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1.5">
+            <label class="block text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Decimal (Base 10)</label>
+            <input type="number" id="num-dec" value="255" oninput="convertNumberBase('dec')" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm font-mono font-bold text-slate-900 dark:text-slate-100">
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1.5">
+            <label class="block text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Binary (Base 2)</label>
+            <input type="text" id="num-bin" value="11111111" oninput="convertNumberBase('bin')" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm font-mono font-bold text-slate-900 dark:text-slate-100">
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1.5">
+            <label class="block text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Octal (Base 8)</label>
+            <input type="text" id="num-oct" value="377" oninput="convertNumberBase('oct')" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm font-mono font-bold text-slate-900 dark:text-slate-100">
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1.5">
+            <label class="block text-xs font-bold text-pink-600 dark:text-pink-400 uppercase tracking-wider">Hexadecimal (Base 16)</label>
+            <input type="text" id="num-hex" value="FF" oninput="convertNumberBase('hex')" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm font-mono font-bold text-slate-900 dark:text-slate-100">
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== TAB 3: SMART FLASHCARDS ==================== -->
+    <div id="view-flashcards" class="hidden space-y-6">
+      
+      <div class="glass-card p-6 space-y-6">
+        
+        <!-- Header & Category Selector -->
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300">Rapid Memorization</span>
+            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mt-1">BCA High-Yield Flashcard Deck</h3>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="filterFlashcards('all')" class="fc-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-sm">All</button>
+            <button onclick="filterFlashcards('c')" class="fc-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">C Language</button>
+            <button onclick="filterFlashcards('digital')" class="fc-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Digital Logic</button>
+            <button onclick="filterFlashcards('math')" class="fc-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Discrete Math</button>
+          </div>
+        </div>
+
+        <!-- Single Active Interactive Flip Card -->
+        <div class="max-w-xl mx-auto space-y-4">
+          
+          <div id="flashcard-container" onclick="toggleFlashcardFlip()" class="flip-card w-full h-72 cursor-pointer">
+            <div id="flashcard-inner" class="flip-card-inner w-full h-full relative rounded-2xl shadow-xl">
+              
+              <!-- FRONT -->
+              <div class="flip-card-front absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-8 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                <div class="flex justify-between items-center text-xs text-indigo-300 font-bold">
+                  <span id="fc-category-tag">C PROGRAMMING</span>
+                  <span>Click / Tap to Flip 🔄</span>
+                </div>
+                <div class="text-center my-auto">
+                  <h4 id="fc-question-text" class="text-xl sm:text-2xl font-black text-white leading-snug">
+                    What is the difference between malloc() and calloc() in C?
+                  </h4>
+                </div>
+                <div class="text-[10px] text-slate-400 text-center font-mono">
+                  Card <span id="fc-current-num">1</span> of <span id="fc-total-num">5</span>
+                </div>
+              </div>
+
+              <!-- BACK -->
+              <div class="flip-card-back absolute inset-0 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-8 rounded-2xl border border-indigo-200 dark:border-indigo-800 flex flex-col justify-between">
+                <div class="flex justify-between items-center text-xs text-emerald-600 dark:text-emerald-400 font-bold">
+                  <span>ANSWER & EXPLANATION</span>
+                  <span>Concept Mastered?</span>
+                </div>
+                <div class="my-auto space-y-2 text-sm font-medium">
+                  <p id="fc-answer-text" class="text-slate-700 dark:text-slate-200 leading-relaxed">
+                    <strong>malloc(size)</strong> allocates raw memory with uninitialized garbage values.<br/><br/>
+                    <strong>calloc(n, size)</strong> allocates memory and initializes all bytes to <strong>ZERO</strong>.
+                  </p>
+                </div>
+                <div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800">
+                  <span class="text-[11px] text-indigo-600 dark:text-indigo-400 font-bold">Exam Favorite Question ⭐</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Flashcard Deck Controls -->
+          <div class="flex items-center justify-between pt-2">
+            <button onclick="prevFlashcard()" class="p-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1">
+              ⬅️ Previous
+            </button>
+
+            <div class="flex gap-2">
+              <button onclick="markFlashcardMastered(false)" class="px-4 py-2.5 bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 rounded-xl text-xs font-bold">
+                ❌ Need Practice
+              </button>
+              <button onclick="markFlashcardMastered(true)" class="px-4 py-2.5 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 rounded-xl text-xs font-bold">
+                ✅ Got It (+15 XP)
+              </button>
+            </div>
+
+            <button onclick="nextFlashcard()" class="p-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1">
+              Next ➡️
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ==================== TAB 4: BRAINGAIN SEARCH ENGINE ==================== -->
+    <div id="view-search" class="hidden space-y-6">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Search Input Form (5 cols) -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="glass-card p-6">
+            <div class="flex items-center justify-between mb-5">
+              <h2 class="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="p-1.5 rounded-lg bg-pink-100 dark:bg-pink-950 text-pink-600 dark:text-pink-400 text-sm">📖</span> BrainGain Summarizer
+              </h2>
+              <span class="text-xs font-bold text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950 px-2.5 py-1 rounded-full border border-pink-200 dark:border-pink-800">Gen-Z AI Style</span>
+            </div>
+
+            <form onsubmit="handleSearch(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Concept or Question</label>
+                <input type="text" id="search-input" placeholder="e.g. Digital Electronics — Karnaugh Maps (K-Map)" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pink-500 text-slate-900 dark:text-slate-100 font-medium">
+              </div>
+
+              <button type="submit" id="btn-generate-search" class="w-full py-3.5 bg-gradient-to-r from-pink-600 to-indigo-600 hover:from-pink-500 hover:to-indigo-500 text-white font-extrabold rounded-xl text-sm transition shadow-md shadow-pink-500/20 flex items-center justify-center gap-2">
+                <span>🔍</span> Summarize Concept
+              </button>
+            </form>
+          </div>
+
+          <!-- Quick Search Topic Recommendations -->
+          <div class="glass-card p-5 space-y-3">
+            <h3 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Frequently Asked Exam Topics</h3>
+            <div class="space-y-2">
+              <button onclick="quickSearchTopic('C Pointers vs Arrays')" class="w-full p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold transition text-left flex justify-between items-center">
+                <span>💻 C Pointers vs Arrays</span>
+                <span class="text-indigo-600 dark:text-indigo-400 font-mono">🔍 Search</span>
+              </button>
+              <button onclick="quickSearchTopic('De Morgan Theorems')" class="w-full p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold transition text-left flex justify-between items-center">
+                <span>⚡ De Morgan's Laws</span>
+                <span class="text-indigo-600 dark:text-indigo-400 font-mono">🔍 Search</span>
+              </button>
+              <button onclick="quickSearchTopic('CPU Memory Hierarchy')" class="w-full p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold transition text-left flex justify-between items-center">
+                <span>🖥️ Memory Hierarchy</span>
+                <span class="text-indigo-600 dark:text-indigo-400 font-mono">🔍 Search</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Display Output (7 cols) -->
+        <div class="lg:col-span-7">
+          <div id="search-display" class="glass-card p-6 min-h-[500px] relative flex flex-col justify-between">
+            
+            <div id="search-empty" class="my-auto flex flex-col items-center justify-center text-center p-8 text-slate-400">
+              <div class="w-16 h-16 rounded-2xl bg-pink-50 dark:bg-pink-950/80 border border-pink-100 dark:border-pink-800 flex items-center justify-center mb-4 shadow-sm">
+                <span class="text-3xl">🔍</span>
+              </div>
+              <h3 class="text-lg font-extrabold text-slate-800 dark:text-slate-200 mb-1">BrainGain Engine Ready</h3>
+              <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 max-w-sm font-medium">
+                Type any BCA concept or pick a suggestion to generate instant analogies, summary notes, and predicted exam questions.
+              </p>
+            </div>
+
+            <div id="search-content" class="hidden"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FLOATING TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- JAVASCRIPT LOGIC ENGINE -->
+  <script>
+    /* ================= LOCAL STORAGE & USER STATE MANAGEMENT ================= */
+    let userXP = parseInt(localStorage.getItem('bca_userXP')) || 450;
+    let completedSteps = JSON.parse(localStorage.getItem('bca_completedSteps')) || {};
+    let completedNotes = JSON.parse(localStorage.getItem('bca_completedNotes')) || {};
+    let quizScores = JSON.parse(localStorage.getItem('bca_quizScores')) || {};
+    let weakTopics = JSON.parse(localStorage.getItem('bca_weakTopics')) || {};
+    let isDarkMode = localStorage.getItem('bca_theme') === 'dark';
+
+    let currentTab = 'roadmap';
+    let currentRoadmapData = null;
+    let activeTopicId = null;
+    let activeWorkspaceTab = 'notes';
+    let activeSubTab = 'genz';
+    let currentSearchResultData = null;
+
+    // Flashcard State
+    let currentFlashcardIndex = 0;
+    let flashcardFilter = 'all';
+    let isFlashcardFlipped = false;
+
+    const flashcardsData = [
+      {
+        id: 1,
+        category: 'c',
+        categoryTag: 'C PROGRAMMING',
+        question: 'What is the difference between malloc() and calloc() in C?',
+        answer: '<strong>malloc(size)</strong> allocates uninitialized memory containing garbage values.<br/><br/><strong>calloc(n, size)</strong> allocates memory and initializes all bytes to <strong>ZERO</strong>.'
+      },
+      {
+        id: 2,
+        category: 'c',
+        categoryTag: 'C PROGRAMMING',
+        question: 'What is a Dangling Pointer in C programming?',
+        answer: 'A pointer pointing to a memory location that has already been freed or deallocated using <code>free()</code>. Accessing it causes Undefined Behavior.'
+      },
+      {
+        id: 3,
+        category: 'digital',
+        categoryTag: 'DIGITAL ELECTRONICS',
+        question: 'Why are NAND and NOR called Universal Logic Gates?',
+        answer: 'Because any fundamental logic operation (AND, OR, NOT) or complex Boolean logic circuit can be created using ONLY NAND gates or ONLY NOR gates.'
+      },
+      {
+        id: 4,
+        category: 'digital',
+        categoryTag: 'DIGITAL ELECTRONICS',
+        question: 'State De Morgan\'s First Theorem in Boolean Algebra.',
+        answer: '<strong>(A + B)\' = A\' · B\'</strong><br/><br/>The complement of a logical sum is equal to the product of the individual complements.'
+      },
+      {
+        id: 5,
+        category: 'math',
+        categoryTag: 'DISCRETE MATH',
+        question: 'What is a Power Set of a set S?',
+        answer: 'The Power Set P(S) is the set of all possible subsets of S, including the empty set and S itself. If |S| = n, then |P(S)| = 2ⁿ.'
+      }
+    ];
+
+    // Gate State
+    let gateInputA = 0;
+    let gateInputB = 0;
+
+    // Save State
+    function saveState() {
+      localStorage.setItem('bca_userXP', userXP);
+      localStorage.setItem('bca_completedSteps', JSON.stringify(completedSteps));
+      localStorage.setItem('bca_completedNotes', JSON.stringify(completedNotes));
+      localStorage.setItem('bca_quizScores', JSON.stringify(quizScores));
+      localStorage.setItem('bca_weakTopics', JSON.stringify(weakTopics));
+      localStorage.setItem('bca_theme', isDarkMode ? 'dark' : 'light');
+    }
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      updateHeaderXP();
+      updateMemorySimulation();
+      updateGateSimulation();
+      convertNumberBase('dec');
+      renderFlashcard();
+      loadPresetSubject('c_pointers');
+    });
+
+    /* ================= THEME TOGGLE ================= */
+    function initTheme() {
+      if (isDarkMode) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-icon-sun').classList.remove('hidden');
+        document.getElementById('theme-icon-moon').classList.add('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('theme-icon-sun').classList.add('hidden');
+        document.getElementById('theme-icon-moon').classList.remove('hidden');
+      }
+    }
+
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      initTheme();
+      saveState();
+    }
+
+    /* ================= TAB SWITCHING ================= */
+    function switchTab(tab) {
+      currentTab = tab;
+      
+      const tabs = ['roadmap', 'visualizers', 'flashcards', 'search'];
+      tabs.forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tab) {
+          view.classList.remove('hidden');
+          btn.className = 'flex-1 py-3 px-4 rounded-xl font-extrabold text-xs md:text-sm transition-all duration-200 bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-md';
+        } else {
+          view.classList.add('hidden');
+          btn.className = 'flex-1 py-3 px-4 rounded-xl font-extrabold text-xs md:text-sm transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+        }
+      });
+    }
+
+    /* ================= PRESET SUBJECT DATA GENERATOR ================= */
+    function getPresetSubjectData(presetKey) {
+      if (presetKey === 'c_pointers') {
+        return {
+          subject: "C Programming — Pointers, Dynamic Memory & Structs",
+          days: 3,
+          isSurprise: false,
+          milestones: [
+            {
+              id: 1,
+              title: "Pointer Basics, Addresses (&) & Dereferencing (*)",
+              difficulty: "Medium",
+              time: "45 mins",
+              weightage: "High-Yield (35%)",
+              notes: [
+                {
+                  sectionId: 'c1_s1',
+                  title: '📌 1. What is a Pointer in C?',
+                  content: 'A pointer is a variable that stores the memory address of another variable.<br/><br/><strong>Syntax & Declaration:</strong><br/><div class="my-2 p-2.5 rounded-lg bg-slate-900 text-indigo-300 font-mono text-xs">int a = 10;<br/>int *ptr = &a; // ptr stores address of a</div>'
+                },
+                {
+                  sectionId: 'c1_s2',
+                  title: '⚡ 2. Pointer Arithmetic & Arrays',
+                  content: 'Arrays and pointers are intimately linked in C. Array name acts as a constant pointer to the 0th element.<br/><div class="my-2 p-2.5 rounded-lg bg-slate-900 text-indigo-300 font-mono text-xs">int arr[5] = {10, 20, 30};<br/>*(arr + 1) == arr[1]; // Evaluates to 20</div>'
+                }
+              ],
+              questions: [
+                {
+                  qId: 'c1_q1',
+                  type: 'MCQ',
+                  difficulty: 'Basic',
+                  question: 'What does the dereference operator (*) return in C?',
+                  options: ['Memory Address', 'Value stored at memory address', 'Size of pointer', 'Variable Name'],
+                  correctIndex: 1,
+                  explanation: '*ptr accesses the value stored at the memory address saved inside ptr.'
+                }
+              ],
+              cheatCode: {
+                formulas: ['int *ptr = &var;', '*ptr -> Value', 'ptr + 1 -> Advances by sizeof(type) bytes'],
+                mnemonics: '💡 <strong>"& Address, * Value"</strong> rule!',
+                commonMistakes: '⚠️ Dereferencing uninitialized wild pointers causes segmentation fault!',
+                tips: '🎯 Viva Question: Array name is a constant pointer, so arr++ is INVALID!'
+              },
+              revision: {
+                summary: 'Pointers store memory addresses. & gets address, * gets value. Incrementing pointer moves by sizeof(datatype) bytes.',
+                keyTakeaways: ['& = Address-of', '* = Dereference', 'Pointers enable call-by-reference in functions']
+              }
+            },
+            {
+              id: 2,
+              title: "Dynamic Memory Allocation (malloc, calloc, realloc, free)",
+              difficulty: "Hard",
+              time: "50 mins",
+              weightage: "High-Yield (40%)",
+              notes: [
+                {
+                  sectionId: 'c2_s1',
+                  title: '🧠 1. Heap vs Stack Memory',
+                  content: 'Stack memory is fixed compile-time memory. Heap memory is allocated dynamically at runtime using <code>&lt;stdlib.h&gt;</code>.'
+                }
+              ],
+              questions: [
+                {
+                  qId: 'c2_q1',
+                  type: 'MCQ',
+                  difficulty: 'Medium',
+                  question: 'Which function initializes allocated memory bytes to ZERO?',
+                  options: ['malloc()', 'calloc()', 'realloc()', 'free()'],
+                  correctIndex: 1,
+                  explanation: 'calloc zero-initializes memory, whereas malloc leaves random garbage values.'
+                }
+              ],
+              cheatCode: {
+                formulas: ['int *p = (int*) malloc(n * sizeof(int));', 'free(p); p = NULL;'],
+                mnemonics: '💡 <strong>"M-Garbage, C-Clear"</strong>: malloc leaves garbage, calloc clears to 0.',
+                commonMistakes: '⚠️ Forgetting free() causes memory leaks in system memory!',
+                tips: '🎯 Viva: Always check if (ptr == NULL) after allocation.'
+              },
+              revision: {
+                summary: 'Heap memory allows dynamic runtime sizing. Always call free() to prevent leaks.',
+                keyTakeaways: ['malloc returns void*', 'calloc zeroes memory', 'free releases memory']
+              }
+            }
+          ]
+        };
+      } else if (presetKey === 'digital_logic') {
+        return {
+          subject: "Digital Electronics — Logic Gates, K-Maps & Boolean Algebra",
+          days: 3,
+          isSurprise: false,
+          milestones: [
+            {
+              id: 1,
+              title: "Logic Gates & De Morgan's Laws",
+              difficulty: "Medium",
+              time: "40 mins",
+              weightage: "Foundation (30%)",
+              notes: [
+                {
+                  sectionId: 'd1_s1',
+                  title: '⚡ 1. Fundamental & Universal Gates',
+                  content: 'NAND and NOR are Universal Gates because any digital circuit can be synthesized using only them.'
+                }
+              ],
+              questions: [
+                {
+                  qId: 'd1_q1',
+                  type: 'MCQ',
+                  difficulty: 'Basic',
+                  question: 'Which of the following is a Universal Logic Gate?',
+                  options: ['AND', 'OR', 'NAND', 'XOR'],
+                  correctIndex: 2,
+                  explanation: 'NAND and NOR gates are universal gates.'
+                }
+              ],
+              cheatCode: {
+                formulas: ['De Morgan: (A+B)\' = A\'·B\'', '(A·B)\' = A\'+B\''],
+                mnemonics: '💡 <strong>"Break the bar, change the sign"</strong> for De Morgan!',
+                commonMistakes: '⚠️ XOR gives HIGH only when inputs are DIFFERENT.',
+                tips: '🎯 Always write complete truth tables in university theory exams.'
+              },
+              revision: {
+                summary: 'Logic gates form digital computer circuits. Universal gates NAND/NOR can construct all operations.',
+                keyTakeaways: ['AND = Product', 'OR = Sum', 'NAND/NOR = Universal']
+              }
+            }
+          ]
+        };
+      } else if (presetKey === 'discrete_math') {
+        return {
+          subject: "Discrete Mathematics — Set Theory, Relations & Propositional Logic",
+          days: 3,
+          isSurprise: false,
+          milestones: [
+            {
+              id: 1,
+              title: "Set Operations, Venn Diagrams & Power Sets",
+              difficulty: "Medium",
+              time: "40 mins",
+              weightage: "Exam Edge (30%)",
+              notes: [
+                {
+                  sectionId: 'm1_s1',
+                  title: '📐 1. Set Theory Essentials',
+                  content: 'A set is a well-defined collection of distinct objects. Power set size for n elements is 2ⁿ.'
+                }
+              ],
+              questions: [
+                {
+                  qId: 'm1_q1',
+                  type: 'MCQ',
+                  difficulty: 'Basic',
+                  question: 'If a set A has 4 elements, how many elements are in its Power Set P(A)?',
+                  options: ['4', '8', '16', '32'],
+                  correctIndex: 2,
+                  explanation: '|P(A)| = 2⁴ = 16.'
+                }
+              ],
+              cheatCode: {
+                formulas: ['|P(A)| = 2ⁿ', '|A ∪ B| = |A| + |B| - |A ∩ B|'],
+                mnemonics: '💡 <strong>"Union = All, Intersection = Common"</strong>',
+                commonMistakes: '⚠️ Don\'t count duplicate elements inside sets.',
+                tips: '🎯 Draw neat Venn diagrams for full marks in 5-mark theory questions.'
+              },
+              revision: {
+                summary: 'Set theory underpins database logic and formal proofs.',
+                keyTakeaways: ['Sets have unique elements', 'Power set size = 2ⁿ']
+              }
+            }
+          ]
+        };
+      } else {
+        return {
+          subject: "Computer Fundamentals — Architecture, CPU & Number Systems",
+          days: 2,
+          isSurprise: false,
+          milestones: [
+            {
+              id: 1,
+              title: "CPU Architecture & Number System Conversions",
+              difficulty: "Easy",
+              time: "35 mins",
+              weightage: "High-Yield (35%)",
+              notes: [
+                {
+                  sectionId: 'f1_s1',
+                  title: '🖥️ 1. Computer Organization Basics',
+                  content: 'CPU consists of ALU, Control Unit (CU), and Registers. Memory Hierarchy spans Registers ➔ Cache ➔ RAM ➔ Secondary Storage.'
+                }
+              ],
+              questions: [
+                {
+                  qId: 'f1_q1',
+                  type: 'MCQ',
+                  difficulty: 'Basic',
+                  question: 'Which memory component is fastest in a CPU architecture?',
+                  options: ['RAM', 'Cache Memory', 'CPU Registers', 'Hard Disk'],
+                  correctIndex: 2,
+                  explanation: 'CPU Registers reside directly inside the processor core and are the fastest.'
+                }
+              ],
+              cheatCode: {
+                formulas: ['1 Byte = 8 Bits', 'Base 2 = Binary', 'Base 16 = Hexadecimal'],
+                mnemonics: '💡 <strong>"Registers ➔ Cache ➔ RAM ➔ Disk"</strong> speed order.',
+                commonMistakes: '⚠️ Hexadecimal digits above 9 use letters A (10) through F (15).',
+                tips: '🎯 Always show step-by-step division work when doing base conversions in exams.'
+              },
+              revision: {
+                summary: 'Understanding hardware organization and binary representation.',
+                keyTakeaways: ['Registers are fastest', 'Cache bridges speed gap with RAM']
+              }
+            }
+          ]
+        };
+      }
+    }
+
+    function loadPresetSubject(presetKey) {
+      switchTab('roadmap');
+      currentRoadmapData = getPresetSubjectData(presetKey);
+      document.getElementById('subject-input').value = currentRoadmapData.subject;
+      activeTopicId = null;
+      document.getElementById('roadmap-empty').classList.add('hidden');
+      renderRoadmapListView();
+    }
+
+    function toggleSurpriseState() {
+      const isChecked = document.getElementById('surprise-check').checked;
+      const daysInput = document.getElementById('days-input');
+      daysInput.disabled = isChecked;
+      if (isChecked) daysInput.value = '';
+    }
+
+    function handleGenerateRoadmap(e) {
+      e.preventDefault();
+      const subject = document.getElementById('subject-input').value;
+      const days = document.getElementById('days-input').value;
+      const isSurprise = document.getElementById('surprise-check').checked;
+
+      const btn = document.getElementById('btn-generate-roadmap');
+      btn.innerHTML = `<span>⏳</span> Building System...`;
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.innerHTML = `<span>⚡</span> Generate Custom Study System`;
+        btn.disabled = false;
+
+        currentRoadmapData = getPresetSubjectData('c_pointers');
+        currentRoadmapData.subject = subject;
+        currentRoadmapData.days = days || 3;
+        currentRoadmapData.isSurprise = isSurprise;
+        activeTopicId = null;
+
+        document.getElementById('roadmap-empty').classList.add('hidden');
+        renderRoadmapListView();
+        showToast("🚀 Interactive BCA Roadmap Generated!");
+      }, 300);
+    }
+
+    /* ================= RENDER ROADMAP LIST VIEW ================= */
+    function renderRoadmapListView() {
+      const container = document.getElementById('roadmap-content');
+      const topicWorkspace = document.getElementById('topic-workspace');
+      topicWorkspace.classList.add('hidden');
+      container.classList.remove('hidden');
+
+      const data = currentRoadmapData;
+      let typeText = data.isSurprise ? '⚡ 3-Hour Rapid Viva Sprint' : `🎯 ${data.days}-Day Plan`;
+
+      let milestonesHTML = data.milestones.map(m => {
+        const isDone = !!completedSteps[m.id];
+        const isWeak = !!weakTopics[m.id];
+
+        return `
+          <div class="p-5 rounded-2xl border ${isDone ? 'border-emerald-300 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-950/20' : (isWeak ? 'border-amber-300 dark:border-amber-800 bg-amber-50/40 dark:bg-amber-950/20' : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900')} hover:shadow-lg transition space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">${m.difficulty}</span>
+                <span class="text-xs font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/80 px-2.5 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-800">${m.weightage}</span>
+                ${isWeak ? `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-500 text-white animate-pulse">🔥 WEAK SPOT</span>` : ''}
+              </div>
+              <button onclick="toggleWeakSpot(${m.id}, event)" class="text-[11px] font-bold text-slate-400 hover:text-amber-600 transition">
+                ${isWeak ? '⭐ Marked Weak' : '+ Flag Weak Spot'}
+              </button>
+            </div>
+
+            <div>
+              <h4 class="text-base font-extrabold text-slate-900 dark:text-white">${m.title}</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">Includes Concept Notes, Quiz, Cheat Code & Viva Review.</p>
+            </div>
+
+            <div class="pt-2 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+              <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700 dark:text-slate-300">
+                <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleMilestoneDone(${m.id})" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer">
+                <span>${isDone ? '✅ Completed' : 'Mark Complete'}</span>
+              </label>
+
+              <button onclick="openTopicWorkspace(${m.id})" class="btn-primary text-white text-xs font-extrabold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-sm">
+                <span>Launch Workspace</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = `
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-6 pb-4 border-b border-slate-200 dark:border-slate-800">
+          <div>
+            <span class="text-[11px] font-bold px-2.5 py-1 rounded-md bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${typeText}</span>
+            <h3 class="text-xl font-extrabold mt-2 text-slate-900 dark:text-white">${data.subject}</h3>
+          </div>
+        </div>
+        <div class="space-y-4">${milestonesHTML}</div>
+      `;
+
+      updateOverallProgress();
+    }
+
+    function openTopicWorkspace(topicId) {
+      activeTopicId = topicId;
+      document.getElementById('roadmap-content').classList.add('hidden');
+      document.getElementById('topic-workspace').classList.remove('hidden');
+      renderTopicWorkspaceView();
+    }
+
+    function renderTopicWorkspaceView() {
+      const topicWorkspace = document.getElementById('topic-workspace');
+      const topic = currentRoadmapData.milestones.find(m => m.id === activeTopicId);
+
+      if (!topic) return;
+
+      const isDone = !!completedSteps[topic.id];
+      const isWeak = !!weakTopics[topic.id];
+
+      let tabsHTML = `
+        <div class="flex gap-1 bg-slate-100 dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-x-auto">
+          <button onclick="setWorkspaceTab('notes')" class="flex-1 py-2 px-3 rounded-xl font-extrabold text-xs whitespace-nowrap transition ${activeWorkspaceTab === 'notes' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">
+            📚 Notes
+          </button>
+          <button onclick="setWorkspaceTab('quiz')" class="flex-1 py-2 px-3 rounded-xl font-extrabold text-xs whitespace-nowrap transition ${activeWorkspaceTab === 'quiz' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">
+            ❓ Code Quiz
+          </button>
+          <button onclick="setWorkspaceTab('cheat')" class="flex-1 py-2 px-3 rounded-xl font-extrabold text-xs whitespace-nowrap transition ${activeWorkspaceTab === 'cheat' ? 'bg-amber-500 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">
+            ⚡ Cheat Sheet
+          </button>
+          <button onclick="setWorkspaceTab('revision')" class="flex-1 py-2 px-3 rounded-xl font-extrabold text-xs whitespace-nowrap transition ${activeWorkspaceTab === 'revision' ? 'bg-pink-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">
+            🔄 Viva Keys
+          </button>
+        </div>
+      `;
+
+      let bodyHTML = '';
+      if (activeWorkspaceTab === 'notes') {
+        bodyHTML = topic.notes.map(n => `
+          <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 space-y-2">
+            <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200">${n.title}</h4>
+            <div class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${n.content}</div>
+          </div>
+        `).join('');
+      } else if (activeWorkspaceTab === 'quiz') {
+        bodyHTML = topic.questions.map((q, idx) => {
+          const scoreState = quizScores[q.qId];
+          let optionsHTML = q.options.map((opt, oIdx) => {
+            let style = "bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200";
+            if (scoreState !== undefined) {
+              if (oIdx === q.correctIndex) style = "bg-emerald-100 dark:bg-emerald-950 border-emerald-400 text-emerald-900 dark:text-emerald-200 font-bold";
+              else if (scoreState === oIdx) style = "bg-red-100 dark:bg-red-950 border-red-400 text-red-900 dark:text-red-200 font-bold";
+            }
+            return `<button onclick="submitQuizAnswer('${q.qId}', ${oIdx}, ${q.correctIndex})" ${scoreState !== undefined ? 'disabled' : ''} class="w-full text-left p-3 rounded-xl border text-xs font-semibold transition ${style}">${String.fromCharCode(65+oIdx)}. ${opt}</button>`;
+          }).join('');
+
+          return `
+            <div class="p-5 border border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900 space-y-3">
+              <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">Question ${idx+1}</span>
+              <h4 class="text-sm font-extrabold text-slate-900 dark:text-white">${q.question}</h4>
+              <div class="space-y-2">${optionsHTML}</div>
+              ${scoreState !== undefined ? `<div class="p-3 bg-indigo-50 dark:bg-indigo-950/80 rounded-xl text-xs text-indigo-900 dark:text-indigo-200"><strong>Explanation:</strong> ${q.explanation}</div>` : ''}
+            </div>
+          `;
+        }).join('');
+      } else if (activeWorkspaceTab === 'cheat') {
+        const c = topic.cheatCode;
+        bodyHTML = `
+          <div class="space-y-4">
+            <div class="p-4 rounded-2xl bg-slate-900 text-indigo-300 font-mono text-xs space-y-2">
+              <div class="text-slate-400 font-bold text-[10px] uppercase">// High-Yield Code & Syntax</div>
+              ${c.formulas.map(f => `<div>${f}</div>`).join('')}
+            </div>
+            <div class="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200">${c.mnemonics}</div>
+            <div class="p-4 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800 text-xs text-red-900 dark:text-red-200">${c.commonMistakes}</div>
+          </div>
+        `;
+      } else {
+        const r = topic.revision;
+        bodyHTML = `
+          <div class="p-5 rounded-2xl bg-gradient-to-br from-pink-50 dark:from-pink-950/30 to-indigo-50 dark:to-indigo-950/30 border border-pink-200 dark:border-pink-900 space-y-3">
+            <h4 class="text-xs font-extrabold text-pink-700 dark:text-pink-300 uppercase tracking-wider">⏱️ 2-Minute Summary</h4>
+            <p class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-medium leading-relaxed">${r.summary}</p>
+            <ul class="space-y-1.5 pt-2 border-t border-slate-200 dark:border-slate-800">${r.keyTakeaways.map(t => `<li class="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2"><span class="text-pink-500">✔</span> ${t}</li>`).join('')}</ul>
+          </div>
+        `;
+      }
+
+      topicWorkspace.innerHTML = `
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+          <button onclick="renderRoadmapListView()" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
+            <span>⬅️ Back to Roadmap</span>
+          </button>
+          <button onclick="toggleMilestoneDone(${topic.id}); renderTopicWorkspaceView();" class="text-xs font-bold px-3 py-1 rounded-full border ${isDone ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-emerald-50 text-emerald-700 border-emerald-200'}">
+            ${isDone ? '✅ Topic Finished' : 'Mark Complete (+50 XP)'}
+          </button>
+        </div>
+
+        <div class="bg-slate-900 text-white p-5 rounded-2xl shadow-md space-y-2">
+          <span class="text-[10px] font-mono text-indigo-400">ESTIMATED TIME: ${topic.time}</span>
+          <h2 class="text-xl font-black">${topic.title}</h2>
+        </div>
+
+        ${tabsHTML}
+        <div class="pt-2">${bodyHTML}</div>
+      `;
+    }
+
+    function setWorkspaceTab(tab) {
+      activeWorkspaceTab = tab;
+      renderTopicWorkspaceView();
+    }
+
+    function submitQuizAnswer(qId, selectedIdx, correctIdx) {
+      quizScores[qId] = selectedIdx;
+      if (selectedIdx === correctIdx) {
+        addXP(25, "Correct Quiz Answer!");
+      } else {
+        showToast("❌ Incorrect choice. Check explanation.");
+      }
+      saveState();
+      renderTopicWorkspaceView();
+      updateOverallProgress();
+    }
+
+    function toggleMilestoneDone(id) {
+      completedSteps[id] = !completedSteps[id];
+      if (completedSteps[id]) addXP(50, "Completed Topic!");
+      saveState();
+      updateOverallProgress();
+      if (activeTopicId === null) renderRoadmapListView();
+    }
+
+    function toggleWeakSpot(id, e) {
+      if (e) e.stopPropagation();
+      weakTopics[id] = !weakTopics[id];
+      saveState();
+      showToast(weakTopics[id] ? "🔥 Marked as Weak Spot!" : "Unflagged weak area.");
+      if (activeTopicId === null) renderRoadmapListView();
+    }
+
+    function updateOverallProgress() {
+      if (!currentRoadmapData) return;
+      const total = currentRoadmapData.milestones.length;
+      const done = Object.keys(completedSteps).filter(k => completedSteps[k]).length;
+      const pct = total ? Math.round((done / total) * 100) : 0;
+
+      document.getElementById('progress-text').innerText = `${pct}%`;
+      document.getElementById('progress-bar').style.width = `${pct}%`;
+      document.getElementById('completed-topics-count').innerText = `${done} / ${total} Topics Done`;
+    }
+
+    function addXP(amount, reason) {
+      userXP += amount;
+      saveState();
+      updateHeaderXP();
+      showToast(`+${amount} XP: ${reason}`);
+    }
+
+    function updateHeaderXP() {
+      document.getElementById('header-xp-badge').innerText = `${userXP} XP`;
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'bg-slate-900 text-white font-bold text-xs px-4 py-3 rounded-xl shadow-2xl border border-slate-700 animate-toast flex items-center gap-2 pointer-events-auto';
+      toast.innerHTML = `<span>✨</span><span>${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 2800);
+    }
+
+    /* ================= VISUALIZER 1: C MEMORY SIMULATOR ================= */
+    let isMemoryFreed = false;
+
+    function updateMemorySimulation() {
+      isMemoryFreed = false;
+      const valX = document.getElementById('sim-x-val').value || 42;
+      const mallocCount = parseInt(document.getElementById('sim-malloc-count').value) || 3;
+
+      document.getElementById('code-val-x').innerText = valX;
+      document.getElementById('code-val-malloc').innerText = mallocCount;
+      document.getElementById('mem-stack-x').innerText = valX;
+
+      const heapContainer = document.getElementById('heap-memory-cells');
+      heapContainer.innerHTML = '';
+
+      for (let i = 0; i < mallocCount; i++) {
+        const addr = `0x1004A${i * 4}`;
+        heapContainer.innerHTML += `
+          <div class="p-2 rounded-lg bg-white dark:bg-slate-900 border border-emerald-300 dark:border-emerald-800 shadow-sm flex-1 min-w-[90px]">
+            <div class="text-[9px] text-slate-400">heap_arr[${i}] @ ${addr}</div>
+            <div class="font-bold text-emerald-600 dark:text-emerald-400">0 (Garbage/Zero)</div>
+          </div>
+        `;
+      }
+    }
+
+    function triggerFreeMemory() {
+      isMemoryFreed = true;
+      const heapContainer = document.getElementById('heap-memory-cells');
+      heapContainer.innerHTML = `
+        <div class="w-full p-3 rounded-lg bg-red-100 dark:bg-red-950/80 border border-red-300 dark:border-red-800 text-red-800 dark:text-red-200 text-xs font-bold text-center">
+          🗑️ Heap Memory Deallocated (free() called). Pointer heap_arr is now a DANGLING POINTER unless set to NULL!
+        </div>
+      `;
+      showToast("free(heap_arr) executed!");
+    }
+
+    function resetMemorySimulation() {
+      updateMemorySimulation();
+      showToast("Memory reset!");
+    }
+
+    /* ================= VISUALIZER 2: LOGIC GATE SIMULATOR ================= */
+    function toggleGateInput(inputName) {
+      if (inputName === 'A') gateInputA = gateInputA === 0 ? 1 : 0;
+      else gateInputB = gateInputB === 0 ? 1 : 0;
+      updateGateSimulation();
+    }
+
+    function updateGateSimulation() {
+      const gateType = document.getElementById('gate-selector').value;
+
+      // Update Input Buttons UI
+      const btnA = document.getElementById('btn-gate-input-a');
+      const btnB = document.getElementById('btn-gate-input-b');
+      const labelA = document.getElementById('label-gate-a');
+      const labelB = document.getElementById('label-gate-b');
+
+      labelA.innerText = `${gateInputA} (${gateInputA ? 'HIGH' : 'LOW'})`;
+      labelB.innerText = `${gateInputB} (${gateInputB ? 'HIGH' : 'LOW'})`;
+
+      btnA.className = `p-4 rounded-xl border-2 font-extrabold text-sm flex flex-col items-center gap-1 transition ${gateInputA ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60' : 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900'}`;
+      btnB.className = `p-4 rounded-xl border-2 font-extrabold text-sm flex flex-col items-center gap-1 transition ${gateInputB ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60' : 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900'}`;
+
+      // Calculate Logic
+      let output = 0;
+      let formulaText = "";
+
+      if (gateType === 'AND') { output = gateInputA & gateInputB; formulaText = "Y = A · B"; }
+      else if (gateType === 'OR') { output = gateInputA | gateInputB; formulaText = "Y = A + B"; }
+      else if (gateType === 'NAND') { output = !(gateInputA & gateInputB) ? 1 : 0; formulaText = "Y = (A · B)'"; }
+      else if (gateType === 'NOR') { output = !(gateInputA | gateInputB) ? 1 : 0; formulaText = "Y = (A + B)'"; }
+      else if (gateType === 'XOR') { output = gateInputA ^ gateInputB; formulaText = "Y = A ⊕ B"; }
+      else if (gateType === 'XNOR') { output = !(gateInputA ^ gateInputB) ? 1 : 0; formulaText = "Y = A ⊙ B"; }
+
+      document.getElementById('gate-formula-display').innerText = formulaText;
+      document.getElementById('gate-name-header').innerText = `${gateType} GATE`;
+
+      const badge = document.getElementById('gate-output-badge');
+      badge.innerText = `${output} (${output ? 'HIGH' : 'LOW'})`;
+      badge.className = `text-2xl font-black px-4 py-1.5 rounded-xl border ${output ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 animate-pulse' : 'bg-red-500/20 text-red-300 border-red-500/40'}`;
+
+      // Render Truth Table
+      renderTruthTable(gateType);
+    }
+
+    function renderTruthTable(gateType) {
+      const tbody = document.getElementById('truth-table-body');
+      const states = [[0,0], [0,1], [1,0], [1,1]];
+
+      tbody.innerHTML = states.map(([a, b]) => {
+        let res = 0;
+        if (gateType === 'AND') res = a & b;
+        else if (gateType === 'OR') res = a | b;
+        else if (gateType === 'NAND') res = !(a & b) ? 1 : 0;
+        else if (gateType === 'NOR') res = !(a | b) ? 1 : 0;
+        else if (gateType === 'XOR') res = a ^ b;
+        else if (gateType === 'XNOR') res = !(a ^ b) ? 1 : 0;
+
+        const isCurrentActive = (a === gateInputA && b === gateInputB);
+
+        return `
+          <tr class="border-b border-slate-100 dark:border-slate-800/60 ${isCurrentActive ? 'bg-indigo-50 dark:bg-indigo-950/80 font-bold text-indigo-900 dark:text-indigo-200' : 'text-slate-600 dark:text-slate-400'}">
+            <td class="py-2 px-3">${a}</td>
+            <td class="py-2 px-3">${b}</td>
+            <td class="py-2 px-3 font-bold ${res ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500'}">${res}</td>
+            <td class="py-2 px-3">${isCurrentActive ? '👈 Active Inputs' : '—'}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    /* ================= VISUALIZER 3: NUMBER BASE CONVERTER ================= */
+    function convertNumberBase(source) {
+      let dec = 0;
+
+      try {
+        if (source === 'dec') {
+          dec = parseInt(document.getElementById('num-dec').value) || 0;
+        } else if (source === 'bin') {
+          dec = parseInt(document.getElementById('num-bin').value, 2) || 0;
+        } else if (source === 'oct') {
+          dec = parseInt(document.getElementById('num-oct').value, 8) || 0;
+        } else if (source === 'hex') {
+          dec = parseInt(document.getElementById('num-hex').value, 16) || 0;
+        }
+
+        if (source !== 'dec') document.getElementById('num-dec').value = dec;
+        if (source !== 'bin') document.getElementById('num-bin').value = dec.toString(2);
+        if (source !== 'oct') document.getElementById('num-oct').value = dec.toString(8);
+        if (source !== 'hex') document.getElementById('num-hex').value = dec.toString(16).toUpperCase();
+      } catch (e) {
+        // Handle conversion error quietly
+      }
+    }
+
+    /* ================= FLASHCARD SYSTEM ================= */
+    function getFilteredFlashcards() {
+      if (flashcardFilter === 'all') return flashcardsData;
+      return flashcardsData.filter(f => f.category === flashcardFilter);
+    }
+
+    function renderFlashcard() {
+      const deck = getFilteredFlashcards();
+      if (deck.length === 0) return;
+
+      if (currentFlashcardIndex >= deck.length) currentFlashcardIndex = 0;
+      if (currentFlashcardIndex < 0) currentFlashcardIndex = deck.length - 1;
+
+      const card = deck[currentFlashcardIndex];
+      const cardElem = document.getElementById('flashcard-container');
+      
+      // Ensure card is flipped back to front when changing
+      cardElem.classList.remove('flipped');
+      isFlashcardFlipped = false;
+
+      document.getElementById('fc-category-tag').innerText = card.categoryTag;
+      document.getElementById('fc-question-text').innerText = card.question;
+      document.getElementById('fc-answer-text').innerHTML = card.answer;
+      document.getElementById('fc-current-num').innerText = currentFlashcardIndex + 1;
+      document.getElementById('fc-total-num').innerText = deck.length;
+    }
+
+    function toggleFlashcardFlip() {
+      const cardElem = document.getElementById('flashcard-container');
+      isFlashcardFlipped = !isFlashcardFlipped;
+      if (isFlashcardFlipped) cardElem.classList.add('flipped');
+      else cardElem.classList.remove('flipped');
+    }
+
+    function prevFlashcard() {
+      currentFlashcardIndex--;
+      renderFlashcard();
+    }
+
+    function nextFlashcard() {
+      currentFlashcardIndex++;
+      renderFlashcard();
+    }
+
+    function filterFlashcards(cat) {
+      flashcardFilter = cat;
+      currentFlashcardIndex = 0;
+      
+      document.querySelectorAll('.fc-filter-btn').forEach(btn => {
+        btn.className = 'fc-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+      });
+      event.target.className = 'fc-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-sm';
+
+      renderFlashcard();
+    }
+
+    function markFlashcardMastered(isCorrect) {
+      if (isCorrect) {
+        addXP(15, "Flashcard Concept Mastered!");
+      }
+      nextFlashcard();
+    }
+
+    /* ================= BRAINGAIN SEARCH ENGINE ================= */
+    function handleSearch(e) {
+      e.preventDefault();
+      const query = document.getElementById('search-input').value;
+      quickSearchTopic(query);
+    }
+
+    function quickSearchTopic(topic) {
+      document.getElementById('search-input').value = topic;
+      const btn = document.getElementById('btn-generate-search');
+      btn.innerHTML = `<span>⏳</span> Processing...`;
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.innerHTML = `<span>🔍</span> Summarize Concept`;
+        btn.disabled = false;
+
+        currentSearchResultData = {
+          topic: topic,
+          genz: `Think of Karnaugh Maps (K-Map) like organizing your messy closet into a neat 2D grid so adjacent items automatically pair up and cancel out extra noise!`,
+          notes: [
+            "K-Map simplifies Boolean functions without using complicated algebraic theorems.",
+            "Uses Gray Code ordering (00, 01, 11, 10) so only 1 bit changes between adjacent cells.",
+            "Group sizes MUST be powers of 2 (1, 2, 4, 8, 16 cells).",
+            "Always target the largest possible group (Octet ➔ Quad ➔ Pair) to eliminate maximum variables."
+          ],
+          questions: [
+            "Q1: Simplify the Boolean function F(A,B,C,D) = ∑m(0, 2, 8, 10, 14, 15) using a 4-variable K-Map.",
+            "Q2: Why is Gray Code mandatory for indexing Karnaugh Map rows and columns?",
+            "Q3: Explain the concept of 'Don't Care' conditions (X) in K-Maps and how they optimize logic minimization."
+          ]
+        };
+
+        document.getElementById('search-empty').classList.add('hidden');
+        document.getElementById('search-content').classList.remove('hidden');
+
+        renderSearchContent();
+      }, 300);
+    }
+
+    function setSubTab(mode) {
+      activeSubTab = mode;
+      renderSearchContent();
+    }
+
+    function renderSearchContent() {
+      if (!currentSearchResultData) return;
+      const container = document.getElementById('search-content');
+
+      let modeHTML = '';
+      if (activeSubTab === 'genz') {
+        modeHTML = `
+          <div class="p-4 bg-pink-50 dark:bg-pink-950/50 border border-pink-200 dark:border-pink-900 rounded-xl">
+            <p class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-semibold">"${currentSearchResultData.genz}"</p>
+          </div>
+        `;
+      } else if (activeSubTab === 'notes') {
+        modeHTML = `<ul class="space-y-2.5">` + currentSearchResultData.notes.map(n => `
+          <li class="text-xs md:text-sm text-slate-700 dark:text-slate-300 font-medium flex items-start gap-2.5 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <span class="text-indigo-600 dark:text-indigo-400 font-bold">⚡</span>
+            <span>${n}</span>
+          </li>
+        `).join('') + `</ul>`;
+      } else {
+        modeHTML = `<div class="space-y-2.5">` + currentSearchResultData.questions.map(q => `
+          <div class="p-3.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm text-xs md:text-sm text-slate-800 dark:text-slate-200 font-bold flex items-start gap-2.5">
+            <span class="text-amber-500">❓</span>
+            <span>${q}</span>
+          </div>
+        `).join('') + `</div>`;
+      }
+
+      container.innerHTML = `
+        <div>
+          <div class="mb-5 pb-4 border-b border-slate-200 dark:border-slate-800">
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800">BCA Concept Breakdown</span>
+            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mt-2">${currentSearchResultData.topic}</h3>
+          </div>
+
+          <!-- SUB TABS -->
+          <div class="flex flex-wrap gap-2 mb-5">
+            <button onclick="setSubTab('genz')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeSubTab === 'genz' ? 'bg-pink-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}">
+              Gen-Z Analogy
+            </button>
+            <button onclick="setSubTab('notes')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeSubTab === 'notes' ? 'bg-indigo-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}">
+              Key Rules & Notes
+            </button>
+            <button onclick="setSubTab('questions')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ${activeSubTab === 'questions' ? 'bg-amber-500 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}">
+              Predicted Exam Questions
+            </button>
+          </div>
+
+          <div>${modeHTML}</div>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
